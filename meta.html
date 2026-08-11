@@ -1,0 +1,72 @@
+<!--
+ВНИМАНИЕ
+Данный скрипт находится на стадии активной разработки
+Код распространяется по MIT License © 2026 The State of New Klyn
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-256-CBC (Z85) + META</title>
+    <script src="code.js"></script>
+    <script src="stego_meta.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 15px; }
+        textarea { width: 100%; font-family: monospace; }
+        .button-group { margin: 15px 0; }
+        button { padding: 10px 15px; margin-right: 10px; cursor: pointer; }
+        .result-section { margin-top: 20px; }
+        #resultText { resize: vertical; min-height: 200px; }
+        .stego-section { border: 1px solid #ccc; padding: 15px; margin-top: 20px; background: #f9f9f9; }
+        .file-input { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Advanced Encryption Standard</h1>
+    <p>Release 2.1.1</p>
+
+    <label for="inputText">Введите текст для шифрования или дешифрования:</label><br>
+    <textarea id="inputText" rows="6"></textarea><br>
+
+    <label for="key">Введите ключ:</label><br>
+    <input type="text" id="key" style="width: 100%; padding: 8px;"><br>
+
+    <div class="button-group">
+        <button onclick="encryptText()">🔒 Зашифровать</button>
+        <button onclick="decryptText()">🔓 Дешифровать</button>
+        <button onclick="downloadResultFile()">⬇️ Скачать .txt</button>
+        <button onclick="copyToClipboard()">📋 Копировать</button>
+    </div>
+
+    <div class="result-section">
+        <h2>Результат:</h2>
+        <textarea id="resultText" readonly></textarea>
+        <p><small id="charCount">Символов: 0</small></p>
+    </div>
+
+    <hr>
+
+    <div class="stego-section">
+        <h2>📸 Стеганография через метаданные PNG (текстовый чанк)</h2>
+        <p>Выберите PNG‑изображение, затем:</p>
+        <div class="file-input">
+            <input type="file" id="stegoFileInput" accept="image/png">
+        </div>
+        <div class="button-group">
+            <button onclick="hideToPNG()">📥 Спрятать (зашифрованный текст) в PNG</button>
+            <button onclick="extractAndDecrypt()">📤 Извлечь из PNG и расшифровать</button>
+        </div>
+        <p><small>Данные записываются в чанк с ключом <code>cipher</code>. Файл остаётся полностью рабочим.</small></p>
+    </div>
+
+    <hr>
+    <h2>Шифрование файлов (AES + Base85)</h2>
+    <input type="file" id="fileInput">
+    <div class="button-group">
+        <button onclick="encryptFile()">🔒 Зашифровать файл</button>
+        <button onclick="decryptFile()">🔓 Дешифровать .enc</button>
+    </div>
+    <script src="meta.js"></script>
+</body>
+</html>
