@@ -1,0 +1,93 @@
+<!--
+ВНИМАНИЕ
+Данный скрипт находится на стадии активной разработки
+Код распространяется по MIT License © 2026 The State of New Klyn
+-->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AES-256-CBC + LSB</title>
+<!-- Подгружаем скрипты -->
+	<script src="../code.js"></script>
+	<script src="stego_lsb.js"></script>
+	<script src="lsb.js"></script>
+    <style>
+:root { --txt: #f5f5f5; }
+html, body, p, span, h1, h2, h3, h4, h5, h6, li, a, td, th, input, textarea { color: var(--txt); }
+.light-theme, .light-theme *, [data-theme="light"], [data-theme="light"] *, .bg-white, .bg-white * { color: #000000 !important; }
+body {
+  background-image: url('../images/background.png');
+  background-size: cover;          /* Растягивает картинку на весь экран */
+  background-position: center;     /* Центрирует изображение */
+  background-repeat: no-repeat;    /* Отменяет повторение картинки */
+  background-attachment: fixed;    /* Фиксирует фон при прокрутке */
+}
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 20px auto; padding: 0 15px; }
+	textarea, input { width: 100%; font-family: monospace; background: rgba(30,30,30,0.85) !important; color: #f5f5f5 !important; border: 1px solid #555; padding: 10px; box-sizing: border-box; }
+	.stego-section { border: 1px solid #444; padding: 15px; margin-top: 20px; background: rgba(20,20,20,0.8) !important; color: #f5f5f5 !important; }
+	.stego-section * { color: #f5f5f5 !important; }
+        .button-group { margin: 15px 0; }
+	button { padding: 10px 15px; margin-right: 10px; cursor: pointer; background: rgba(35,35,35,0.9) !important; color: #f5f5f5 !important; border: 1px solid #555; border-radius: 4px; }
+	button:hover { background: rgba(50,50,50,0.9) !important; border-color: #777; }
+	input[type="file"] { color: #f5f5f5 !important; }
+        .result-section { margin-top: 20px; }
+        #resultText { resize: vertical; min-height: 200px; }
+        .stego-section { border: 1px solid #ccc; padding: 15px; margin-top: 20px; background: #f9f9f9; }
+        .file-input { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Advanced Encryption Standard</h1>
+    <p>Release 2.1.2</p>
+
+    <label for="inputText">Введите текст для шифрования или дешифрования:</label><br>
+    <textarea id="inputText" rows="6"></textarea><br>
+
+    <label for="key">Введите ключ:</label><br>
+    <input type="text" id="key" style="width: 100%; padding: 8px;"><br>
+
+    <div class="button-group">
+        <button onclick="encryptText()">🔒 Зашифровать</button>
+        <button onclick="decryptText()">🔓 Дешифровать</button>
+        <button onclick="downloadResultFile()">⬇️ Скачать .txt</button>
+        <button onclick="copyToClipboard()">📋 Копировать</button>
+    </div>
+
+    <div class="result-section">
+        <h2>Результат:</h2>
+        <textarea id="resultText" readonly></textarea>
+        <p><small id="charCount">Символов: 0</small></p>
+    </div>
+
+    <hr>
+
+    <div class="stego-section">
+        <h2>📸 Стеганография (PNG - LSB)</h2>
+        <p>Выберите PNG‑изображение, затем:</p>
+        <div class="file-input">
+            <input type="file" id="stegoFileInput" accept="image/png">
+        </div>
+        <div class="button-group">
+            <button onclick="hideToPNG()">📥 Спрятать (зашифрованный текст) в PNG</button>
+            <button onclick="extractAndDecrypt()">📤 Извлечь из PNG и расшифровать</button>
+        </div>
+        <p><small>При встраивании используется текущий зашифрованный текст из поля «Результат».</small></p>
+    </div>
+
+    <hr>
+    <h2>Шифрование файлов</h2>
+    <input type="file" id="fileInput">
+    <div class="button-group">
+        <button onclick="encryptFile()">🔒 Зашифровать файл</button>
+        <button onclick="decryptFile()">🔓 Дешифровать .enc</button>
+    </div>
+	<footer>
+<center>
+		<p>© 2026 The State of New Klyn</p>
+		<p>Read LICENSE and LICENSE_LIB files</p>
+</center>
+	</footer>
+</body>
+</html>
